@@ -7,8 +7,11 @@
 */
 int ToggleBit(int num, int pos) {
    /* TODO: implement */
-   num=num&(2*pos);
-   return num;
+   int masking=1;
+   for (int i=0; i<pos; i++){
+      masking*=2;
+   }
+   return num ^ masking; 
 }
 
 /*
