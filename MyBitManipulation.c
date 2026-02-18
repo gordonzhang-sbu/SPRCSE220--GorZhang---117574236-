@@ -40,6 +40,18 @@ int GetMSB(int num) {
 */
 int ClearBitRange(int num, int start, int end) {
    /* TODO: implement */
+
+   //Constraints
+   if (start < 0 || end > 31 || start > end){
+      return num;
+   }
+   
+   for (int i=start; i<=end; i++){
+      int mask= ~(1<<i);
+
+      num &= mask; 
+   }
+
    return num;
 }
 
