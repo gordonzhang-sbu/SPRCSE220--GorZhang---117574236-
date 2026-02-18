@@ -21,10 +21,10 @@ Test(ClearBitRange, examples) {
    cr_assert_eq(ClearBitRange(73, 1, 3), 65);
 }
 
-// Test(RotateLeft, examples) {
-//    cr_assert_eq(RotateLeft(5, 1), 10);
-//    cr_assert_eq(RotateLeft(5, 2), 20);
-// }
+Test(RotateLeft, examples) {
+   cr_assert_eq(RotateLeft(5, 1), 10);
+   cr_assert_eq(RotateLeft(5, 2), 20);
+}
 
 // Test(SwapOddEvenBits, examples) {
 //    cr_assert_eq(SwapOddEvenBits(23), 43);

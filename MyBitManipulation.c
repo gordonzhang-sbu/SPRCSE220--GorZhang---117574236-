@@ -60,6 +60,21 @@ int ClearBitRange(int num, int start, int end) {
 */
 uint32_t RotateLeft(uint32_t num, int d) {
    /* TODO: implement */
+   
+   for (int i=0; i<d; i++){
+      //Get the left most bit
+      int MSB=(num & 800000000);
+      //Shift it to the right
+      MSB >>=31;
+
+      //Shift all the bit to the left by 1
+      num = num <<1;
+      // Add the left most bit to the right
+      num= num | MSB;
+
+   }
+
+
    return num;
 }
 
@@ -68,5 +83,14 @@ uint32_t RotateLeft(uint32_t num, int d) {
 */
 int SwapOddEvenBits(int num) {
    /* TODO: implement */
+
+
+
+
+
+
+
+
+   
    return num;
 }
