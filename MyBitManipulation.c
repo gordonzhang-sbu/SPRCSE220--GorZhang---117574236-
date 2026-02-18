@@ -83,14 +83,16 @@ uint32_t RotateLeft(uint32_t num, int d) {
 */
 int SwapOddEvenBits(int num) {
    /* TODO: implement */
+   int evenMask=0xAAAAAAAAA;
+   int oddMask=0x55555555;
 
+   int even= num & evenMask;
+   int odd= num & oddMask;
 
+   even>>=1;
+   odd<<=1;
 
+   int result=even|odd;
 
-
-
-
-
-   
-   return num;
+   return result;
 }

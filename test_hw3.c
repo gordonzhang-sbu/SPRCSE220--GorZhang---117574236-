@@ -26,9 +26,9 @@ Test(RotateLeft, examples) {
    cr_assert_eq(RotateLeft(5, 2), 20);
 }
 
-// Test(SwapOddEvenBits, examples) {
-//    cr_assert_eq(SwapOddEvenBits(23), 43);
-// }
+Test(SwapOddEvenBits, examples) {
+   cr_assert_eq(SwapOddEvenBits(23), 43);
+}
 
 /* =========================
 * PART 2: IEEE 754 Float
