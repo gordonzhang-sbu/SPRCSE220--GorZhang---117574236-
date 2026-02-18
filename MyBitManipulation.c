@@ -7,6 +7,7 @@
 */
 int ToggleBit(int num, int pos) {
    /* TODO: implement */
+   num=num&(2*pos);
    return num;
 }
 
