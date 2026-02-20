@@ -12,6 +12,7 @@ void repr_convert(char source_repr, char target_repr, unsigned int repr) {
     * 4. Print the result or error message
     */
 
+    //Constraints
     if (source_repr!='2' && source_repr !='S'){
         printf("error\n");
     }
