@@ -3,45 +3,6 @@
 #include <stdio.h>
 
 
-int main(){
-   printf("ToggleBit Test\n");
-   printf("Test 1: %d\n",ToggleBit(0,3));
-   printf("Test 2: %d\n",ToggleBit(1,31));
-   printf("Test 3: %d\n",ToggleBit(-2147483647,0));
-   printf("Test 4: %d\n",ToggleBit(0,0));
-   printf("\n");
-
-   printf("GetMSB Test\n");
-   printf("Test 1: %d\n",GetMSB(2147483647));
-   printf("Test 2: %d\n",GetMSB(-2147483647));
-   printf("Test 3: %d\n",GetMSB(0));
-   printf("Test 4: %d\n",GetMSB(-1));
-   printf("\n");
-
-   printf("ClearBitRange Test\n");
-   printf("Test 1: %d\n",ClearBitRange(0,0,31));
-   printf("Test 2: %d\n",ClearBitRange(-2147483647,31,31));
-   printf("Test 3: %d\n",ClearBitRange(2147483647,31,0));
-   printf("Test 4: %d\n",ClearBitRange(2147483647,0,31));
-   printf("\n");
-
-   printf("RotateLeft Test\n");
-   printf("Test 1: %d\n",RotateLeft(-2147483647,-1));
-   printf("Test 2: %d\n",RotateLeft(1,31));
-   printf("Test 3: %d\n",RotateLeft(-1,31));
-   printf("Test 4: %d\n",RotateLeft(-2147483647,32));
-   printf("\n");
-
-   printf("SwapOddEvenBits Test\n");
-   printf("Test 1: %d\n",SwapOddEvenBits(0));
-   printf("Test 2: %d\n",SwapOddEvenBits(0xFFFFFFFF));
-   printf("Test 3: %d\n",SwapOddEvenBits(1));
-   printf("Test 4: %d\n",SwapOddEvenBits(0x80000000));
-
-   return 0;
-}
-
-
 /*
 * Toggle the bit at position pos in num
 */
@@ -66,14 +27,16 @@ int ToggleBit(int num, int pos) {
 */
 int GetMSB(int num) {
    /* TODO: implement */
-   int result=-1;
+   if (num == 0) {
+      return -1;
+   }
 
    //Cast num to unsigned to ensure no negative
-   unsigned int temp= (unsigned int) num;
+   unsigned int temp = (unsigned int) num;
+   int result=0;
 
-   //Loop over the digit by dividing by 2, each iteration adds one to the result, until reach the end
-   while (temp!=0){
-      temp/=2;
+   //Loop over the digit, each iteration adds one to the result, until reach the end
+   while (temp >>= 1){
       result++;
    }
 
@@ -109,22 +72,11 @@ int ClearBitRange(int num, int start, int end) {
 */
 uint32_t RotateLeft(uint32_t num, int d) {
    /* TODO: implement */
-   
-   for (int i=0; i<d; i++){
-      //Get the left most bit
-      int MSB=(num & 0x80000000);
-      //Shift it to the right
-      MSB >>=31;
-
-      //Shift all the bit to the left by 1
-      num = num <<1;
-      // Add the left most bit to the right
-      num= num | MSB;
-
-   }
-
-
-   return num;
+   d=d % 32;
+   //Shift num to the left by 32 -d
+   //Shift num to the right by d
+   //We combine left with right so we know what is fell out during the rotation
+   return ((num << d) | (num >> (32-d)));
 }
 
 /*
