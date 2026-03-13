@@ -19,8 +19,19 @@ Test(strgChangeCase, adjacency) {
     cr_expect_str_eq(s, "sTONY bROOK");
 }
 
-// Test(strgInterleave, priority) {
-//     char d[6];
-//     strgInterleave("abcdef", "12", d, 6);
-//     cr_expect_str_eq(d, "a1b2c");
-// }
+Test(strgDiff, different) {
+    char s1[] = "Stony Brook";
+    cr_expect_eq(strgDiff(s1, NULL), -2);
+}
+
+Test(strgInterleave, priority) {
+    char d[6];
+    strgInterleave("abcdef", "12", d, 6);
+    cr_expect_str_eq(d, "a1b2c");
+}
+
+Test(strgReverseLetters, reverse) {
+    char d[] = "abc";
+    strgReverseLetters(d);
+    cr_expect_str_eq(d, "cba");
+}

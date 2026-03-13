@@ -7,7 +7,75 @@ int encryptCaesar(const char *plaintext, char *ciphertext, int key) {
     (void)ciphertext;
     (void)key;
     /* TODO */
-    return 0;
+
+    //If either text is null then return -2
+    if(plaintext == NULL) {
+        return -2;
+    }
+    if (ciphertext == NULL) {
+        return -2;
+    }
+
+    //Get the length of the cipher text
+    int ciphertextLen = 0;
+    for (;ciphertext[ciphertextLen] != '\0';){
+        ciphertextLen++;
+    }
+
+    //There need at least 7 char to store __EOM__, else return -1
+    if (ciphertextLen < 7){
+        return -1;
+    }
+
+    int result = 0;
+    
+    int i = 0;
+    //Loop through the plain text
+    for (i = 0; plaintext[i] != '\0'; i++){
+        //If there is no more room for __EOM__, break the loop
+        if (ciphertextLen - 7 <= i){
+            break;
+        }
+
+        char currentChar = plaintext[i];
+        int shiftBy = key + i;
+
+        //If current char is a captial letter
+        if (currentChar >= 'A' && currentChar <= 'Z'){
+            //Current char minus A such that we have a range from 0 to 25
+            //Then we shift the char by the key + index
+            //Mod 26 to wrap around
+            //Plus A so that we have the correct ASCII
+            char newChar = ((currentChar - 'A' + shiftBy) % 26) + 'A';
+            ciphertext[i] = newChar;
+        } else if (currentChar >= 'a' && currentChar <= 'z'){
+            //Similar to the upper case if statments
+            char newChar = ((currentChar - 'a' + shiftBy) % 26) + 'a';
+            ciphertext[i] = newChar;
+        } else if (currentChar >= '0' && currentChar <= '9'){
+            //In the case of number, add the shift, which is equal to key + 2 * index and mod 10 to wrap around
+            ciphertext[i] = ((currentChar - '0' + (key + 2 * i)) %10) + '0';
+        } else {
+            //This case is for punctuation, space, etc.
+            ciphertext[i] = currentChar;
+        }
+
+        result++;
+        
+    }
+
+    //Add the marker in the end of the ciphertext
+    char marker[] = "__EOM__";
+    for (int j = 0; j<7; j++){
+        ciphertext[i+j] = marker[j];
+    }
+
+    //Add the null terminator
+    ciphertext[i + 7] = '\0';
+    
+
+
+    return result;
 }
 
 int decryptCaesar(const char *ciphertext, char *plaintext, int key) {
@@ -15,5 +83,80 @@ int decryptCaesar(const char *ciphertext, char *plaintext, int key) {
     (void)plaintext;
     (void)key;
     /* TODO */
-    return 0;
+    //If either text is null then return -2
+    if(plaintext == NULL) {
+        return -2;
+    }
+    if (ciphertext == NULL) {
+        return -2;
+    }
+
+    //Check if there is an EOM marker
+    int thereIsEOM = 0;
+    //Loop through the string and check at every index if there is an EOM marker
+    for (int i = 0; ciphertext[i] != '\0'; i++){
+        if (hasEOM(ciphertext, i)){
+            thereIsEOM = 1;
+            break;
+        }
+    }
+    //If no EOM marker, return -1
+    if (!thereIsEOM){
+        return -1;
+    }
+
+    //Get the length of the plaintext
+    int plaintextLen = strgLen(plaintext);
+    if (plaintextLen == 0) {
+        return 0;
+    }
+
+    //Cursor for ciphertext index and plaintext index
+    int cI = 0;
+    int pI = 0;
+    int result = 0;
+    while (ciphertext[cI] != '\0'){
+
+        //If the EOM marker appears at the front, then break the loop
+        if (hasEOM(ciphertext, cI)){
+            break;
+        }
+
+        //If we have no more plaintext to traverse then break the loop
+        if (pI >= plaintextLen - 1){
+            break;
+        }
+
+        if (ciphertext[cI] == ' '){
+            plaintext[pI] = ' ';
+        } else {
+            plaintext[pI] = ciphertext [cI] - key - result;
+            result++;
+        }
+
+        cI++;
+        pI++;
+
+    }
+
+    plaintext[pI] = '\0';
+
+    
+
+
+    return result;
+}
+
+//A helper method that return 1 if __EOM__ starts at index, else return 0
+int hasEOM(const char *string, int index){
+    int result = 0;
+    if (string[index] == '_' && string[index+1] == '_' && string[index+2] == 'E'){
+        if (string[index+3] == 'O' && string[index+4] == 'M' && string[index+5] == '_'){
+            if (string[index+6] == '_'){
+                return 1;
+            }
+        }
+    }
+
+    return result;
 }
