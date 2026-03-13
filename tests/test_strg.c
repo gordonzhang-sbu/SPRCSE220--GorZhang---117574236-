@@ -1,10 +1,18 @@
 #include <criterion/criterion.h>
 #include "../strgPtr.h"
 
+//strgLen Test
 Test(strgLen, basic) {
-    cr_expect_eq(strgLen("Stony Brook"), 11);
-    cr_expect_eq(strgLen(""), 0);
+    cr_expect_eq(strgLen("Happy"), 5);
+}
+Test(strgLen, null) {
     cr_expect_eq(strgLen(NULL), -1);
+}
+Test(strgLen, nullChar) {
+    cr_expect_eq(strgLen('\0'), -1);
+}
+Test(strgLen, allCap) {
+    cr_expect_eq(strgLen("LENGTH"), -1);
 }
 
 Test(strgCopy, truncation) {
