@@ -159,17 +159,51 @@ Test(strgChangeCase, null) {
 }
 
 
-
-
-
-
-
-
-
-Test(strgDiff, different) {
-    char s1[] = "Stony Brook";
+//strgDiff test cases
+Test(strgDiff, nullS2) {
+    char s1[] = {"Stony Brook"};
     cr_expect_eq(strgDiff(s1, NULL), -2);
 }
+Test(strgDiff, nullS1) {
+    char s1[] = {"Stony Brook"};
+    cr_expect_eq(strgDiff(NULL, s1), -2);
+}
+Test(strgDiff, identical) {
+    char s1[] = {"Gordon"};
+    cr_expect_eq(strgDiff("Gordon", s1), -1);
+}
+Test(strgDiff, firstCharDiff) {
+    char s1[] = {"Gordon"};
+    cr_expect_eq(strgDiff(s1, "gORDON"), 0);
+}
+Test(strgDiff, midCharDiff) {
+    char s1[] = {"abc"};
+    cr_expect_eq(strgDiff(s1, "aBc"), 1);
+}
+Test(strgDiff, lastCharDiff) {
+    char s1[] = {"abc"};
+    cr_expect_eq(strgDiff(s1, "abC"), 2);
+}
+Test(strgDiff, newLine) {
+    char s1[] = {"abc\n"};
+    cr_expect_eq(strgDiff(s1, "abc4"), 3);
+}
+Test(strgDiff, onlyNum) {
+    char s1[] = {"123456789"};
+    cr_expect_eq(strgDiff(s1, "123456780"), 8);
+}
+Test(strgDiff, diffLength) {
+    char s1[] = {"123"};
+    cr_expect_eq(strgDiff(s1, "1234"), 3);
+}
+Test(strgDiff, empty) {
+    char s1[] = {""};
+    cr_expect_eq(strgDiff(s1, "123456780"), 0);
+}
+
+
+
+
 
 Test(strgInterleave, priority) {
     char d[6];
