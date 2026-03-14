@@ -52,6 +52,10 @@ void strgCopy(const char *source, char *destination, size_t size) {
 void strgChangeCase(char *s) {
     (void)s;
     /* TODO */
+    if (s == NULL){
+        return;
+    }
+
     int i=0;
 
     //Loop while the string is not null
