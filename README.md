@@ -1,2 +1,2 @@
-#Gordon Zhang
-#117574236
+# Gordon Zhang
+# 17574236
