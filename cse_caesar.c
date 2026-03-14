@@ -48,19 +48,22 @@ int encryptCaesar(const char *plaintext, char *ciphertext, int key) {
             //Plus A so that we have the correct ASCII
             char newChar = ((currentChar - 'A' + shiftBy) % 26) + 'A';
             ciphertext[i] = newChar;
+            result++;
         } else if (currentChar >= 'a' && currentChar <= 'z'){
             //Similar to the upper case if statments
             char newChar = ((currentChar - 'a' + shiftBy) % 26) + 'a';
             ciphertext[i] = newChar;
+            result++;
         } else if (currentChar >= '0' && currentChar <= '9'){
             //In the case of number, add the shift, which is equal to key + 2 * index and mod 10 to wrap around
             ciphertext[i] = ((currentChar - '0' + (key + 2 * i)) %10) + '0';
+            result++;
         } else {
             //This case is for punctuation, space, etc.
             ciphertext[i] = currentChar;
         }
 
-        result++;
+        
         
     }
 
@@ -90,7 +93,11 @@ int decryptCaesar(const char *ciphertext, char *plaintext, int key) {
     if (ciphertext == NULL) {
         return -2;
     }
-
+    //Get the length of the plaintext
+    int plaintextLen = strgLen(plaintext);
+    if (plaintextLen == 0) {
+        return 0;
+    }
     //Check if there is an EOM marker
     int thereIsEOM = 0;
     //Loop through the string and check at every index if there is an EOM marker
@@ -105,35 +112,47 @@ int decryptCaesar(const char *ciphertext, char *plaintext, int key) {
         return -1;
     }
 
-    //Get the length of the plaintext
-    int plaintextLen = strgLen(plaintext);
-    if (plaintextLen == 0) {
-        return 0;
-    }
+    
 
     //Cursor for ciphertext index and plaintext index
     int cI = 0;
     int pI = 0;
     int result = 0;
+
     while (ciphertext[cI] != '\0'){
 
-        //If the EOM marker appears at the front, then break the loop
+        //If the EOM marker appears , then just return 
         if (hasEOM(ciphertext, cI)){
-            break;
+            plaintext[pI] = '\0';
+            return result;
         }
 
-        //If we have no more plaintext to traverse then break the loop
-        if (pI >= plaintextLen - 1){
-            break;
-        }
+        char currentChar = ciphertext[cI];
+        int shift = (key + cI);
 
-        if (ciphertext[cI] == ' '){
-            plaintext[pI] = ' ';
-        } else {
-            plaintext[pI] = ciphertext [cI] - key - result;
+        //If currentChar is capital
+        if (currentChar >= 'A' && currentChar <= 'Z'){
+            //Current char minus A such that we have a range from 0 to 25
+            //Then we shift the char "back" by the key + index
+            //Mod 26 to wrap around
+            //Plus A so that we have the correct ASCII
+            plaintext[pI] = (currentChar - 'A' - shift + 26) % 26 + 'A';
             result++;
+        } else if (currentChar >= 'a' && currentChar <= 'z') {
+            //Similar to the above
+            plaintext[pI] = (currentChar - 'a' - shift + 26) % 26 + 'a';
+            result++;
+        } else if (currentChar >= '0' && currentChar <= '9'){
+            //In the case of number, minus the shift, which is equal to key + 2 * index and mod 10 to wrap around
+            int shiftNum = key + 2 * cI;
+            plaintext[pI] = (((currentChar - '0' - shiftNum) % 10) + 10) % 10 + '0';
+            result++;
+        } else {
+            //In the case of other special char
+            plaintext[pI] = currentChar;
         }
 
+    
         cI++;
         pI++;
 
@@ -144,7 +163,7 @@ int decryptCaesar(const char *ciphertext, char *plaintext, int key) {
     
 
 
-    return result;
+    return -1;
 }
 
 //A helper method that return 1 if __EOM__ starts at index, else return 0
