@@ -135,6 +135,9 @@ void strgInterleave(const char *s1, const char *s2, char *d, size_t size) {
     if (s1 == NULL || s2 == NULL || d == NULL){
         return;
     }
+    if (size == 0){
+        return;
+    }
 
     //Index of s1, s2, and d
     size_t s1I = 0;

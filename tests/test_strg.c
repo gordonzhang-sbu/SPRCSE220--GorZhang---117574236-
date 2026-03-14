@@ -202,17 +202,109 @@ Test(strgDiff, empty) {
 }
 
 
-
-
-
-Test(strgInterleave, priority) {
-    char d[6];
-    strgInterleave("abcdef", "12", d, 6);
-    cr_expect_str_eq(d, "a1b2c");
+//strgInterleave test cases
+Test(strgInterleave, basic) {
+    char d[7];
+    strgInterleave("abc", "123", d, 7);
+    cr_expect_str_eq(d, "a1b2c3");
+}
+Test(strgInterleave, s1Longer) {
+    char d[9];
+    strgInterleave("abcde", "123", d, 9);
+    cr_expect_str_eq(d, "a1b2c3de");
+}
+Test(strgInterleave, s2Longer) {
+    char d[9];
+    strgInterleave("abc", "12345", d, 9);
+    cr_expect_str_eq(d, "a1b2c345");
+}
+Test(strgInterleave, stringNull) {
+    char d[9] = {'\0'};
+    strgInterleave(NULL, "123", d, 9);
+    cr_expect_str_eq(d, "");
+}
+Test(strgInterleave, bothNull) {
+    char d[9] = {'\0'};
+    strgInterleave(NULL, NULL, d, 9);
+    cr_expect_str_eq(d, "");
+}
+Test(strgInterleave, sizeZero) {
+    char d[1];
+    strgInterleave("abc", "abc", d, 0);
+    cr_expect_str_eq(d, "");
+}
+Test(strgInterleave, empty) {
+    char d[9];
+    strgInterleave("", "", d, 9);
+    cr_expect_str_eq(d, "");
+}
+Test(strgInterleave, dNull) {
+    strgInterleave("abc", "abc", NULL, 9);
+    cr_expect(true);
+}
+Test(strgInterleave, onlyNum) {
+    char d[9];
+    strgInterleave("123", "456", d, 9);
+    cr_expect_str_eq(d, "142536");
+}
+Test(strgInterleave, noRoom) {
+    char d[3];
+    strgInterleave("123", "456", d, 3);
+    cr_expect_str_eq(d, "14");
 }
 
-Test(strgReverseLetters, reverse) {
+
+//strgReverseLetters
+Test(strgReverseLetters, basic) {
     char d[] = "abc";
     strgReverseLetters(d);
     cr_expect_str_eq(d, "cba");
 }
+Test(strgReverseLetters, onlyNum) {
+    char d[] = "12345";
+    strgReverseLetters(d);
+    cr_expect_str_eq(d, "12345");
+}
+Test(strgReverseLetters, onlySpecialChar) {
+    char d[] = "[]][;][][']]";
+    strgReverseLetters(d);
+    cr_expect_str_eq(d, "[]][;][][']]");
+}
+Test(strgReverseLetters, onlyOneChar) {
+    char d[] = "a";
+    strgReverseLetters(d);
+    cr_expect_str_eq(d, "a");
+}
+Test(strgReverseLetters, numWithSpecialChar) {
+    char d[] = "1[.;[3[.2424[32.42[3]4;34]]]]";
+    strgReverseLetters(d);
+    cr_expect_str_eq(d, "1[.;[3[.2424[32.42[3]4;34]]]]");
+}
+Test(strgReverseLetters, mixWithSpecialChar) {
+    char d[] = "a,b,c";
+    strgReverseLetters(d);
+    cr_expect_str_eq(d, "c,b,a");
+}
+Test(strgReverseLetters, mixWithNumber) {
+    char d[] = "a1b2c";
+    strgReverseLetters(d);
+    cr_expect_str_eq(d, "c1b2a");
+}
+Test(strgReverseLetters, null) {
+    char d[] = {'\0'};
+    strgReverseLetters(d);
+    cr_expect_str_eq(d, "");
+}
+Test(strgReverseLetters, mixWithSpecialCharAndNum) {
+    char d[] = "a,b,c,123";
+    strgReverseLetters(d);
+    cr_expect_str_eq(d, "c,b,a,123");
+}
+Test(strgReverseLetters, empty) {
+    char d[] = "";
+    strgReverseLetters(d);
+    cr_expect_str_eq(d, "");
+}
+
+
+
