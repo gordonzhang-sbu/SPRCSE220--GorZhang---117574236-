@@ -260,7 +260,7 @@ int main(int argc, char *argv[]) {
                 while (*currentPositionW){
 
                     //If the current postion char is just any punctuation/space
-                    if (!isalnum(*currentPositionW)){
+                    if (!isalpha(*currentPositionW)){
                         //Just copy over the char
                         strncat(result,currentPositionW,1);
                         //Advance to the next char
