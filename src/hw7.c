@@ -294,6 +294,7 @@ matrix_sf* evaluate_expr_sf(char name, char *expr, bst_sf *root) {
     char *postfix = infix2postfix_sf(expr);
 
     matrix_sf *stack[MAX_LINE_LEN];
+    int shouldFree [MAX_LINE_LEN];
     int top = -1;
 
     //Loop through the the postfix expression
@@ -312,22 +313,34 @@ matrix_sf* evaluate_expr_sf(char name, char *expr, bst_sf *root) {
                 return NULL;
             }
             stack[++top] = temp;
+            shouldFree[top] = 0;
         } else if (current == '\''){
+            //If we doing the transpose
             if (top < 0){
                 free(postfix);
                 return NULL;
             }
 
             //If we need to do the transpose, pop the matrix and transpose it
-            matrix_sf *temp = stack[top--];
+            matrix_sf *temp = stack[top];
+            int tempToFree = shouldFree[top--];
+
             matrix_sf *transpose = transpose_mat_sf(temp);
 
             if (!transpose){
+                if (tempToFree){
+                    free(temp);
+                }
                 free(postfix);
                 return NULL;
             }
 
+            if (tempToFree){
+                free(temp);
+            }
+
             stack[++top] = transpose;
+            shouldFree[top] = 1;
 
         } else if (current == '*'){
             if (top < 1){
@@ -335,41 +348,84 @@ matrix_sf* evaluate_expr_sf(char name, char *expr, bst_sf *root) {
                 return NULL;
             }
             //If it is multiplication, pop two matrix and times them
-            matrix_sf *temp1 = stack[top--];
-            matrix_sf *temp2 = stack[top--];
+            matrix_sf *temp1 = stack[top];
+            int temp1ToFree = shouldFree[top--];
+            matrix_sf *temp2 = stack[top];
+            int temp2ToFree = shouldFree[top--];
 
             matrix_sf *product = mult_mats_sf(temp2, temp1);
 
             if (!product){
+                if (temp1ToFree){
+                    free(temp1);
+                }
+                if (temp2ToFree){
+                    free(temp2);
+                }
                 free(postfix);
                 return NULL;
             }
 
+            if (temp1ToFree){
+                free(temp1);
+            }
+            if (temp2ToFree){
+                free(temp2);
+            }
+
             stack[++top] = product;
+            shouldFree[top] = 1;
 
         } else if (current == '+'){
             if (top < 1){
                 free(postfix);
                 return NULL;
             }
-            //If it is addition, pop two matrix and add them
-            matrix_sf *temp1 = stack[top--];
-            matrix_sf *temp2 = stack[top--];
+            //If it is multiplication, pop two matrix and times them
+            matrix_sf *temp1 = stack[top];
+            int temp1ToFree = shouldFree[top--];
+            matrix_sf *temp2 = stack[top];
+            int temp2ToFree = shouldFree[top--];
 
             matrix_sf *sum = add_mats_sf(temp2, temp1);
 
             if (!sum){
+                if (temp1ToFree){
+                    free(temp1);
+                }
+                if (temp2ToFree){
+                    free(temp2);
+                }
                 free(postfix);
                 return NULL;
             }
 
+            if (temp1ToFree){
+                free(temp1);
+            }
+            if (temp2ToFree){
+                free(temp2);
+            }
+
             stack[++top] = sum;
+            shouldFree[top] = 1;
         }
 
     }
 
     //The final result will be whatever is left in the stack
     matrix_sf *result = stack[top];
+    int resultToFree = shouldFree[top];
+    if (!resultToFree){
+        result = copy_matrix(result->num_rows, result->num_cols, result->values);
+        if (!result){
+            free(postfix);
+            return NULL;
+        }
+    } else {
+        result = stack[top];
+    }
+
     result->name = name;
     //Free the space postfix allocates
     free(postfix);
@@ -428,11 +484,16 @@ matrix_sf *execute_script_sf(char *filename) {
     }
 
     //Free and close unused memory
+
+    matrix_sf *copy = NULL;
+    if (result) {
+        copy = copy_matrix (result->num_rows, result->num_cols, result->values);
+    }
     free(line);
     fclose(file);
     free_bst_sf(root);
     
-    return result;
+    return copy;
 }
 
 // This is a utility function used during testing. Feel free to adapt the code to implement some of
