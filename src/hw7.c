@@ -1,3 +1,8 @@
+/*
+Name: Gordon Zhang
+SBU ID: 117574236
+*/
+
 #include "hw7.h"
 
 bst_sf* insert_bst_sf(matrix_sf *mat, bst_sf *root) {
