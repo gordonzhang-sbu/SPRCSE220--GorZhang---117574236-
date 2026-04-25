@@ -94,3 +94,25 @@ Test(student_tests, create_matrix_sfMix) {
     run_script_without_valgrind("create_matrix_sfTest05");
     expect_outfile_matches("create_matrix_sfTest05");
 }
+
+//Infix to postfix test
+Test(student_tests, infix2postfixBasic) {
+    run_script_without_valgrind("infix2postfixTest01");
+    expect_outfile_matches("infix2postfixTest01");
+}
+Test(student_tests, infix2postfixPrecedence) {
+    run_script_without_valgrind("infix2postfixTest02");
+    expect_outfile_matches("infix2postfixTest02");
+}
+Test(student_tests, infix2postfixParentheses) {
+    run_script_without_valgrind("infix2postfixTest03");
+    expect_outfile_matches("infix2postfixTest03");
+}
+Test(student_tests, infix2postfixTranspose) {
+    run_script_without_valgrind("infix2postfixTest04");
+    expect_outfile_matches("infix2postfixTest04");
+}
+Test(student_tests, infix2postfixItself) {
+    run_script_without_valgrind("infix2postfixTest05");
+    expect_outfile_matches("infix2postfixTest05");
+}

@@ -1,0 +1,13 @@
+==158170== Memcheck, a memory error detector
+==158170== Copyright (C) 2002-2022, and GNU GPL'd, by Julian Seward et al.
+==158170== Using Valgrind-3.22.0 and LibVEX; rerun with -h for copyright info
+==158170== Command: ./bin/free_bst01
+==158170== 
+==158170== 
+==158170== HEAP SUMMARY:
+==158170==     in use at exit: 0 bytes in 0 blocks
+==158170==   total heap usage: 6 allocs, 6 frees, 108 bytes allocated
+==158170== 
+==158170== All heap blocks were freed -- no leaks are possible
+==158170== 
+==158170== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)

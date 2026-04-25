@@ -1,0 +1,13 @@
+==158253== Memcheck, a memory error detector
+==158253== Copyright (C) 2002-2022, and GNU GPL'd, by Julian Seward et al.
+==158253== Using Valgrind-3.22.0 and LibVEX; rerun with -h for copyright info
+==158253== Command: ./bin/mult02
+==158253== 
+==158253== 
+==158253== HEAP SUMMARY:
+==158253==     in use at exit: 0 bytes in 0 blocks
+==158253==   total heap usage: 3 allocs, 3 frees, 224 bytes allocated
+==158253== 
+==158253== All heap blocks were freed -- no leaks are possible
+==158253== 
+==158253== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)

@@ -247,6 +247,13 @@ char* infix2postfix_sf(char *infix) {
     //Initialize for result
     char *result = malloc(MAX_LINE_LEN);
     char *stack = malloc(MAX_LINE_LEN);
+
+    if (!result || !stack){
+        free(result);
+        free(stack);
+        return NULL;
+    }
+
     int top = -1;
     int resultCounter = 0;
 
@@ -271,12 +278,14 @@ char* infix2postfix_sf(char *infix) {
                 result[resultCounter++] = stack[top--];
             }
             //Remove (
-            if (top >= 0 && stack[top] == '('){
+            if (top >= 0){
                 top--;
             }
+        } else if (current == '\'') {
+            result[resultCounter++] = current;
         } else {
             //Depending on the order of precedence, pop the stack and add it to result
-            while (top >= 0 && precedence(stack[top]) >= precedence(current)){
+            while (top >= 0 && stack[top] != '(' && precedence(stack[top]) >= precedence(current)){
                 result[resultCounter++] = stack[top--];
             }
             //Push the current char to stack
@@ -286,6 +295,11 @@ char* infix2postfix_sf(char *infix) {
 
         //Pop out all the remaining operators into result
         while (top >= 0){
+            if (resultCounter >= MAX_LINE_LEN - 1){
+                free(result);
+                free(stack);
+                return NULL;
+            }
             result[resultCounter++] = stack[top--];
         }
 
