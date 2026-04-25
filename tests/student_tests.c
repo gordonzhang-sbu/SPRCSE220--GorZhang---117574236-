@@ -271,6 +271,12 @@ Test(student_tests, evaluate_expr_sfJustOne) {
     matrix_sf* result = evaluate_expr_sf('R', "F", root);
     expect_matrices_equal(result, 4, 7, (int[]){-77, -20, 111, -2, 41, 117, 118, 21, -29, -45, 135, 98, 54, 131, 54, 1, 80, 143, -127, 148, 114, -81, 87, -33, -2, -6, 115, 59});
 }
+Test(student_tests, evaluate_expr_sfAddition) {
+    bst_sf* root = build_bst();
+    matrix_sf* result = evaluate_expr_sf('R', "A + B", root);
+    expect_matrices_equal(result, 3, 5, (int[]){6, 27, 4, -26, 32, 30, 39, 20, 93, -47, -88, 24, 21, 16, -18});
+}
+
 
 //execute_script_sf tests
 Test(student_tests, add_mats01) { run_script_without_valgrind("execute_script_sfTest01"); }
