@@ -50,3 +50,47 @@ Test(student_tests, multiplicationIdentityMatrix) {
     run_script_without_valgrind("multiplicationTest05");
     expect_outfile_matches("multiplicationTest05");
 }
+
+//Transpose test
+Test(student_tests, transposeBasic) {
+    run_script_without_valgrind("transposeTest01");
+    expect_outfile_matches("transposeTest01");
+}
+Test(student_tests, transposeOneRow) {
+    run_script_without_valgrind("transposeTest02");
+    expect_outfile_matches("transposeTest02");
+}
+Test(student_tests, transposeOneCol) {
+    run_script_without_valgrind("transposeTest03");
+    expect_outfile_matches("transposeTest03");
+}
+Test(student_tests, transposeOneByOne) {
+    run_script_without_valgrind("transposeTest04");
+    expect_outfile_matches("transposeTest04");
+}
+Test(student_tests, transposeDoubleTranspose) {
+    run_script_without_valgrind("transposeTest05");
+    expect_outfile_matches("transposeTest05");
+}
+
+//create_matrix_sf test
+Test(student_tests, create_matrix_sfBasic) {
+    run_script_without_valgrind("create_matrix_sfTest01");
+    expect_outfile_matches("create_matrix_sfTest01");
+}
+Test(student_tests, create_matrix_sfBigSpace) {
+    run_script_without_valgrind("create_matrix_sfTest02");
+    expect_outfile_matches("create_matrix_sfTest02");
+}
+Test(student_tests, create_matrix_sfOnlyOne) {
+    run_script_without_valgrind("create_matrix_sfTest03");
+    expect_outfile_matches("create_matrix_sfTest03");
+}
+Test(student_tests, create_matrix_sfNegative) {
+    run_script_without_valgrind("create_matrix_sfTest04");
+    expect_outfile_matches("create_matrix_sfTest04");
+}
+Test(student_tests, create_matrix_sfMix) {
+    run_script_without_valgrind("create_matrix_sfTest05");
+    expect_outfile_matches("create_matrix_sfTest05");
+}
