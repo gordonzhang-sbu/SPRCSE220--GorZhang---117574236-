@@ -17,6 +17,7 @@ void run_script_without_valgrind(char *script_file);
 void expect_normal_exit(int status);
 void expect_no_valgrind_errors(int status);
 void expect_outfile_matches(char *name);
+bst_sf* build_bst();
 
 void expect_matrices_equal(matrix_sf *actual, unsigned int num_rows, unsigned int num_cols, int *values);
 

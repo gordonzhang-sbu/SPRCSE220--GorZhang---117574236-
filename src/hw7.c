@@ -299,6 +299,7 @@ char* infix2postfix_sf(char *infix) {
         while (top >= 0){
             if (stack[top] != '('){
                 result[resultCounter++] = stack[top];
+
             }
             top--;
         }
