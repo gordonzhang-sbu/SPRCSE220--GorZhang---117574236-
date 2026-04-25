@@ -257,6 +257,8 @@ char* infix2postfix_sf(char *infix) {
     int top = -1;
     int resultCounter = 0;
 
+    result[0] = '\0';
+
     //Loop through the infix expression
     for (int i = 0; infix[i] ; i++){
         char current = infix[i];
@@ -295,12 +297,10 @@ char* infix2postfix_sf(char *infix) {
 
         //Pop out all the remaining operators into result
         while (top >= 0){
-            if (resultCounter >= MAX_LINE_LEN - 1){
-                free(result);
-                free(stack);
-                return NULL;
+            if (stack[top] != '('){
+                result[resultCounter++] = stack[top];
             }
-            result[resultCounter++] = stack[top--];
+            top--;
         }
 
         //Add string terminator
